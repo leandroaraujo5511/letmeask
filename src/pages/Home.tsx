@@ -28,9 +28,7 @@ export function Home() {
         }
 
         const roomRef =  await ref(database,`/rooms/${codeRoom}`)
-
         const teste  = await get(roomRef)
-        
 
         if(!teste.exists()){
             alert('Room does not exists!');
@@ -38,12 +36,7 @@ export function Home() {
         }       
         
         history.push(`/rooms/${codeRoom}`)
-
-       
-
-        
     }
-    
 
     return(
         <div id='page-auth'>
@@ -64,7 +57,6 @@ export function Home() {
                     <form onSubmit={handleJoinRoom}>
                         <input 
                             type="text"
-                            
                             placeholder='Digite o código da sala'
                             onChange={event => setCodeRoom(event.target.value)}
                             value={codeRoom}

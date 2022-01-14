@@ -1,9 +1,6 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-
 import {createContext, useState, useEffect, ReactNode} from 'react'
 import { auth } from '../services/firebase_config';
-
-
 
 type User = {
     id: string;
@@ -19,7 +16,6 @@ type AuthContextType = {
 type AuthContextProviderProps = {
     children: ReactNode;
 }
-
 
 export const AuthContext =  createContext({} as AuthContextType);
 
@@ -42,7 +38,6 @@ export function AuthContextProvider( props: AuthContextProviderProps ){
         })
     
         return () => {
-    
           unsubscribe();
         }
     },[] )
@@ -52,14 +47,11 @@ export function AuthContextProvider( props: AuthContextProviderProps ){
       
     async function signInWithGoogle(){
         const provider = new GoogleAuthProvider();
-                
         const auth   = getAuth();
-      
         const results =  await signInWithPopup(auth,provider); 
           
         if(results.user){
           const {displayName, photoURL, uid} =  results.user;
-            
             if(!displayName || !photoURL){
                 throw new Error('Falta algumas informações da Conta Google. ')
             }
@@ -77,5 +69,4 @@ export function AuthContextProvider( props: AuthContextProviderProps ){
            {props.children}
         </AuthContext.Provider>
     );
-
 }

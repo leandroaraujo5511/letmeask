@@ -2,7 +2,6 @@ import { Link, useHistory } from 'react-router-dom';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import {FormEvent, useState} from 'react'
-
 import '../styles/auth.scss'
 import { Button } from '../components/Button'
 import { useAuth } from '../hooks/useAuth';
@@ -22,19 +21,11 @@ export function NewRoom() {
 
         const roomRef =  ref(database,'rooms');
 
-
         const firebaseRoom = await push(roomRef,{
             title: newRoom,
             authorId: user?.id 
         }) 
-
-
-
-        
-
         history.push(`/rooms/${firebaseRoom.key}`)
-
-
     }
 
     return(

@@ -5,8 +5,6 @@ import { Button } from '../components/Button'
 import { RoomCode } from '../components/RoomCode'
 import { useAuth } from '../hooks/useAuth'
 import toast,{Toaster} from 'react-hot-toast'
-
-
 import  '../styles/room.scss'
 import { database } from '../services/firebase_config'
 import { onValue, push, ref } from 'firebase/database'
@@ -46,13 +44,10 @@ export function Room(){
     const RoomID = params.id;
     const [questions, setQuestions] = useState<Question[]>([]);
     const [title, setTitle] =  useState('')
-
     const [newQuestion, setNewQuestion] =  useState('');
 
     useEffect(() => {
-        const roomRef =  ref(database, `rooms/${RoomID}`);
-        
-
+        const roomRef =  ref(database, `rooms/${RoomID}`);       
         onValue(roomRef,(room) => {
             const databaseRoom =  room.val();
             const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {}; 
@@ -92,14 +87,9 @@ export function Room(){
         };
 
         const RefQuestion = await ref(database,`rooms/${RoomID}/questions`);
-
         await push(RefQuestion,question);
-
         toast.success("Questão criada com sucesso.")
         setNewQuestion('');
-
-        
-
     }
 
 
@@ -114,7 +104,7 @@ export function Room(){
             <main>
                 <div className='room-title'>
                     <h1>Sala {title}</h1>
-                    { questions.length > 0 &&  <span>{questions.length} perguntas</span>}
+                    { questions.length > 0 &&  <span>{questions.length} pergunta(s)</span>}
                 </div>
 
                 <form onSubmit={handleSendQuestion}>
