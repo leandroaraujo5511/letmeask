@@ -4,6 +4,7 @@ import {NewRoom} from './pages/NewRoom';
 import {Room} from './pages/Room';
 
 import { AuthContextProvider } from './contexts/AuthContext';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (     
@@ -14,8 +15,8 @@ function App() {
           <Route path="/rooms/new" component={NewRoom}/>
           <Route path="/rooms/:id" component={Room}/>
         </Switch>
-      </AuthContextProvider>       
-      
+      </AuthContextProvider>    
+      <Toaster/>
     </BrowserRouter>
   );
 }
