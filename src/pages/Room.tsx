@@ -8,6 +8,7 @@ import toast,{Toaster} from 'react-hot-toast'
 import  '../styles/room.scss'
 import { database } from '../services/firebase_config'
 import { onValue, push, ref } from 'firebase/database'
+import { Question } from '../components/Question'
 
 type RoomParams = {
     id: string;
@@ -88,7 +89,7 @@ export function Room(){
 
         const RefQuestion = await ref(database,`rooms/${RoomID}/questions`);
         await push(RefQuestion,question);
-        toast.success("Questão criada com sucesso.")
+        toast.success("Pergunta criada com sucesso.")
         setNewQuestion('');
     }
 
@@ -130,7 +131,19 @@ export function Room(){
                     </div>
                 </form>
                 
-                {JSON.stringify(questions)}
+
+                {questions.map(question => {
+                    console.log(question.author.name)
+                    return(
+                        <Question 
+                            content={question.content}
+                            author={question.author}
+                        
+                        />
+                    )
+                })}
+                                
+
 
             </main>
         </div>
