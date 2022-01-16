@@ -88,6 +88,7 @@ export function Room(){
         };
 
         const RefQuestion = await ref(database,`rooms/${RoomID}/questions`);
+
         await push(RefQuestion,question);
         toast.success("Pergunta criada com sucesso.")
         setNewQuestion('');
@@ -142,7 +143,9 @@ export function Room(){
                         />
                     )
                 })}
-                                
+
+
+                      {JSON.stringify(questions)}          
 
 
             </main>
