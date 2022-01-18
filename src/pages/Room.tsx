@@ -133,8 +133,10 @@ export function Room(){
                 </form>
                 
 
+                
+
                 {questions.map(question => {
-                    console.log(question.author.name)
+                    //console.log(question.author.name)
                     return(
                         <Question 
                             content={question.content}
@@ -145,7 +147,6 @@ export function Room(){
                 })}
 
 
-                      {JSON.stringify(questions)}          
 
 
             </main>
