@@ -1,16 +1,17 @@
 import { FormEvent, useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
-import logoImg from '../assets/images/logo.svg'
 import { Button } from '../components/Button'
 import { RoomCode } from '../components/RoomCode'
 import { useAuth } from '../hooks/useAuth'
 import toast,{Toaster} from 'react-hot-toast'
 import  '../styles/room.scss'
 import { database } from '../services/firebase_config'
-import { onValue, push, ref } from 'firebase/database'
+import { onValue, push, ref, remove } from 'firebase/database'
 import { Question } from '../components/Question'
 import { useRoom } from '../hooks/useRoom'
 
+import logoImg from '../assets/images/logo.svg'
+import deleteImg from '../assets/images/delete.svg'
 
 
 
@@ -55,6 +56,14 @@ export function AdminRoom(){
         setNewQuestion('');
     }
 
+    async function handleDeleteQuestion(questionId:string) {
+        if(window.confirm('Tem certeza que deseja excluir esta pergunta?')){
+            const deleteQuestion = await ref(database, `rooms/${RoomID}/questions/${questionId}`)
+            remove(deleteQuestion);
+        }
+        
+        
+    }
 
     return(
         <div id="page-room">
@@ -85,7 +94,15 @@ export function AdminRoom(){
                             content={question.content}
                             author={question.author}
                             
-                            />
+                            >
+                                <button
+                                    type='button'
+                                    onClick={() => handleDeleteQuestion(question.id)}
+                                >
+                                    <img src={deleteImg} alt="Deletar Pergunta" />
+                                </button>
+
+                            </Question>
                         );
                     })}
 
