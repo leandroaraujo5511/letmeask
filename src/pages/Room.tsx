@@ -9,64 +9,25 @@ import  '../styles/room.scss'
 import { database } from '../services/firebase_config'
 import { onValue, push, ref } from 'firebase/database'
 import { Question } from '../components/Question'
+import { useRoom } from '../hooks/useRoom'
+
+
+
 
 type RoomParams = {
     id: string;
 }
 
-type FirebaseQuestions = Record<string, {
-    author:{
-        name: string;
-        avatar: string;
-    }
-    
-    content:string;
-    isAnswered: boolean;
-    isHighlighted: boolean;
-
-}>
-
-type Question ={
-    id:string;
-    author:{
-        name: string;
-        avatar: string;
-    }    
-    content:string;
-    isAnswered: boolean;
-    isHighlighted: boolean;
-
-}
 
 
 export function Room(){
     const {user} =  useAuth()
     const params = useParams<RoomParams>();
     const RoomID = params.id;
-    const [questions, setQuestions] = useState<Question[]>([]);
-    const [title, setTitle] =  useState('')
+    const {title, questions} = useRoom(RoomID)
     const [newQuestion, setNewQuestion] =  useState('');
 
-    useEffect(() => {
-        const roomRef =  ref(database, `rooms/${RoomID}`);       
-        onValue(roomRef,(room) => {
-            const databaseRoom =  room.val();
-            const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {}; 
-            const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value])=>{
-                return{
-                  id: key,
-                  content:value.content,
-                  author: value.author,
-                  isAnswered: value.isAnswered,
-                  isHighlighted: value.isHighlighted,  
-                }
-            })
-            setTitle(databaseRoom.title)
-            setQuestions(parsedQuestions)
-        })
-
-        
-    }, [RoomID])
+    
 
     async function handleSendQuestion(event: FormEvent){
         event.preventDefault();
@@ -133,19 +94,20 @@ export function Room(){
                 </form>
                 
 
-                
-
-                {questions.map(question => {
-                    //console.log(question.author.name)
-                    return(
-                        <Question 
+                <div className='question-list'> 
+                    {questions.map(question => {
+                        console.log(question.author.user)
+                        return(
+                            <Question 
+                            key={question.id} //algoritmo de recociliação
                             content={question.content}
                             author={question.author}
-                        
-                        />
-                    )
-                })}
+                            
+                            />
+                        );
+                    })}
 
+                </div>
 
 
 
