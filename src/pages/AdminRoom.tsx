@@ -1,12 +1,12 @@
-import { FormEvent, useEffect, useState } from 'react'
-import {useParams} from 'react-router-dom'
+import { FormEvent,  useState } from 'react'
+import { useHistory, useParams} from 'react-router-dom'
 import { Button } from '../components/Button'
 import { RoomCode } from '../components/RoomCode'
 import { useAuth } from '../hooks/useAuth'
-import toast,{Toaster} from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import  '../styles/room.scss'
 import { database } from '../services/firebase_config'
-import { onValue, push, ref, remove } from 'firebase/database'
+import {  push, ref, remove, update } from 'firebase/database'
 import { Question } from '../components/Question'
 import { useRoom } from '../hooks/useRoom'
 
@@ -22,6 +22,7 @@ type RoomParams = {
 
 
 export function AdminRoom(){
+    const history = useHistory()
     const {user} =  useAuth()
     const params = useParams<RoomParams>();
     const RoomID = params.id;
@@ -56,6 +57,19 @@ export function AdminRoom(){
         setNewQuestion('');
     }
 
+
+    async function handleEndRoom() {
+        if(window.confirm('Tem certeza que deseja excluir a Sala?')){
+            const endRoom = await ref(database, `rooms/${RoomID}`)
+            update(endRoom,{
+                endedAt: new Date()
+            });
+        }
+
+        history.push('/')
+       
+    }
+
     async function handleDeleteQuestion(questionId:string) {
         if(window.confirm('Tem certeza que deseja excluir esta pergunta?')){
             const deleteQuestion = await ref(database, `rooms/${RoomID}/questions/${questionId}`)
@@ -72,7 +86,7 @@ export function AdminRoom(){
                     <img src={logoImg} alt="LetmeAsk" />
                     <div>
                         <RoomCode code={RoomID} />
-                        <Button isOutlined >Encerra Sala</Button>
+                        <Button isOutlined onClick={handleEndRoom} >Encerra Sala</Button>
                     </div>
                 </div>
             </header>
