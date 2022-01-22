@@ -7,7 +7,7 @@ import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 import { FormEvent, useState } from 'react';
 import { database } from '../services/firebase_config';
-import {ref, onValue, getDatabase, child,get} from 'firebase/database'
+import {ref, onValue, getDatabase, child,get, endAt} from 'firebase/database'
 
 export function Home() {
     const history =  useHistory() 
@@ -28,12 +28,17 @@ export function Home() {
         }
 
         const roomRef =  await ref(database,`/rooms/${codeRoom}`)
-        const teste  = await get(roomRef)
+        const room  = await get(roomRef)
 
-        if(!teste.exists()){
+        if(!room.exists()){
             alert('Room does not exists!');
             return;
-        }       
+        }
+        
+        if(room.val().endedAt){
+            alert('Esta sala esta fechada.')
+            return;
+        }
         
         history.push(`/rooms/${codeRoom}`)
     }
