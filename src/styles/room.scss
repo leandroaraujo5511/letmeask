@@ -19,12 +19,10 @@
                 gap: 16px
             }
             button{
-                height: 40px;
+                height: 32px;
             }
         
-        }
-
-        
+        }       
 
     }
 
@@ -38,10 +36,9 @@
             display: flex;
             align-items: center;
 
-
             h1{
                 font-family: 'Poppins', sans-serif;
-                font-size: 24px;
+                font-size: 2.4rem;
                 color: #29292e;
             }
 
@@ -52,7 +49,7 @@
                 padding: 8px 16px;
                 color: #fff;
                 font-weight: 500;
-                font-size: 14px;
+                font-size: 1.4rem;
             }
         }
 
@@ -91,13 +88,13 @@
                         margin-left: 8px;
                         font-weight: 500;
                         color: #29292e;
-                        font-size: 14px;
+                        font-size: 1.4rem;
                     }
                 }
             }
             
             >span{
-                font-size: 14px;
+                font-size: 1.4rem;
                 color: #737380 ;
                 font-weight: 500;
 
@@ -108,7 +105,7 @@
                     text-decoration: underline;
                     cursor: pointer;
                     padding: 0;
-                    font-size: 14px;
+                    font-size: 1.4rem;
                     font-weight: 500;
                 }
             }
@@ -121,5 +118,32 @@
 
     }
 
+
+}
+
+@media (max-width: 830px){
+    #page-room main{
+        max-width: 70.0rem;
+        margin: 0 auto;
+    }
+
+}
+@media (max-width: 580px){
+    #page-room main{
+        max-width: 65.0rem;
+        margin: 0 2.5rem;
+    }
+
+}
+@media (max-width: 499px){
+    #page-room header .content > div {
+        display: grid;
+        gap: 1rem;
+    }
+}
+@media (max-width: 330px){
+    #page-room header .content > img{
+        max-height: 30px;
+    }
 
 }
